@@ -1,17 +1,21 @@
 package com.gb.hw1.review;
 
-interface Moveable {
+interface Movable {
     void move();
 }
-interface Stopable {
+interface Stoppable {
     void stop();
 }
+// вообще странные эти два интерфейса: зачем они нужны, если есть родительский класс Car?
+// По смыслу автомобиль должен иметь возможность и двигаться, и останавливаться в любом варианте.
 abstract class Car {
-    public Engine engine;
+    private Engine engine; // лучше поставить private
     private String color;
     private String name;
-    protected void start() {
-        System.out.println("Car starting");
+
+    // конструктур, мне кажется, не помешал бы
+    protected void start() { // возможно, стоит поставить public
+        System.out.println("Car is starting");
     }
     abstract void open();
     public Engine getEngine() {
@@ -33,9 +37,9 @@ abstract class Car {
         this.name = name;
     }
 }
-class LightWeightCar extends Car implements Moveable {
+class LightWeightCar extends Car implements Movable {
     @Override
-    void open() {
+    void open() { // public?
         System.out.println("Car is open");
     }
     @Override
@@ -43,11 +47,21 @@ class LightWeightCar extends Car implements Moveable {
         System.out.println("Car is moving");
     }
 }
-class Lorry extends Car, Moveable, Stopable {
+class Lorry extends Car implements Movable, Stoppable { // extends для классов, implements для интерфейсов
+    @Override // рекомендуется поставить аннотацию
     public void move(){
         System.out.println("Car is moving");
     }
+    @Override // рекомендуется поставить аннотацию
     public void stop(){
-        System.out.println("Car is stop");
+        System.out.println("Car is stopping");
     }
+    @Override
+    void open() { // необходимо реализовать этот метод из абстрактного класса
+        System.out.println("Lorry is open");
+    }
+}
+
+class Engine {
+
 }
