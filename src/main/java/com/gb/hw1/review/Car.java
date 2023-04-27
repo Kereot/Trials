@@ -62,6 +62,6 @@ class Lorry extends Car implements Movable, Stoppable { // extends для кла
     }
 }
 
-class Engine {
+abstract class Engine {
 
 }
